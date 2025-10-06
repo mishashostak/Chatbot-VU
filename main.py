@@ -56,14 +56,13 @@ def main():
     else:
         print("Sorry, I can only help with sports, events, or associations right now.")
     
-    print("Thank you for using Unibot! Have a good day.")
+    print("\nThank you for using Unibot! Have a good day :)")
 
 
 def check_topic(user_input):    
-    #FILL
     sports_words = [
         "sport", "sports", "gym", "training", "train", "weight", "health", "fitness", 
-        "excercise", "workout", "tournament", "competition", "stretch", "cardio", 
+        "excercise", "workout", "tournament", "competition", "stretch", "cardio", "play",
         "active", "track", "field", "ball", "run", "league", "soccer", "match", "team",
         "coach", "court", "baseball", "sporty", "gymnasium", "athlete", "athletic", "recreation"
     ] + [s.lower() for s in SPORTS]
@@ -102,18 +101,76 @@ def count_keywords(user_input, keywords):
     return count
 
 
-#FILL
-#The print() functions are placeholders
 def sports_chat():
-    print("sports")
+    print("\nAre you interested in a specific sport, or would you like to try something new?")
+    print("You can type 'specific' for a certain sport you had in mind.")
+    answer = input("(Type 'specific' or 'new'): ").strip().lower()
+
+    if "specific" in answer:
+        print("Which sport are you interested in?")
+        sport = input().strip().lower()
+        matches = [s for s in SPORTS if sport in s.lower()]
+        if matches:
+            print("\nThat sport is available at Sportcentrum VU!")
+            print("You can sign up on the Sportcentrum VU website: https://sportcentrumvu.nl/")
+        else:
+            print("\nThat sport might not be available. Here's what we do offer though:")
+            for s in SPORTS:
+                print("-", s)
+    else:
+        print("\nHere are all the sports we have available:")
+        for s in SPORTS:
+            print("-", s)
+        print("\nYou can sign up for any of them on the Sportcentrum VU website: https://sportcentrumvu.nl/")
 
 
 def events_chat():
-    print("events")
+    print("We offer plenty of events at VU Amsterdam!")
+    print("\nWould you like to look for a specific event? (yes/no)")
+    answer = input("(yes/no): ").strip().lower()
+
+    if "y" in answer:
+        print("You can enter a keyword (e.g., party, dinner, Christmas) and I will look for that event")
+        keyword = input("Enter a keyword: ").strip().lower()
+        matches = [e for e in EVENTS if keyword in e.lower()]
+        if matches:
+            print("\nHere's what I found:")
+            for e in matches:
+                print("-", e)
+        else:
+            print("\nSorry, I couldn't find an event matching that keyword. So here are all the events we offer:")
+            for e in EVENTS:
+                print("-", e)
+    else:
+        print("\nNo problem! Here is the full list of events we offer:")
+        for e in EVENTS:
+                print("-", e)
+    print("If youre interested, you can also check out other events that are happening at: https://vu.nl/en/events")
 
 
 def association_chat():
-    print("association")
+    print("\nAre you interested in a specific type of association (e.g., debate, art, science)?")
+    interest = input("Enter a keyword or press Enter to see all: ").strip().lower()
+
+    if interest:
+        matches = [a for a in ASSOCIATIONS if interest in a.lower()]
+        if matches:
+            print("\nBased on your interest, you might enjoy:")
+            for a in matches:
+                print("-", a)
+        elif interest == "no":
+            print("Oh, that's a shame, I suppose we can restart")
+            main()
+        else:
+            print("\nI couldn't find any associations for that interest. Here are some others you could explore:")
+            for a in ASSOCIATIONS[:5]:
+                print("-", a)
+    else:
+        print("\nHere are all the associations you could join:")
+        for a in ASSOCIATIONS:
+            print("-", a)
+
+    print("\nYou can learn more or sign up through the VU website: https://vu.nl/en/student/associations")
 
 
 main()
