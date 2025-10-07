@@ -44,7 +44,7 @@ def main():
     topic = check_topic(user_input)
 
     if topic is None:
-        print("\nHmm, I couldn't quite tell. Are you interested in sports, events, or associations?")
+        print("\nHmm, I couldn't quite tell. Are you interested in sports, events, associations or studying?")
         topic = input().lower()
 
     if topic == "sports" or "sport" in topic:
@@ -53,8 +53,11 @@ def main():
         events_chat()
     elif topic == "associations" or "association" in topic:
         association_chat()
+    elif topic == "study" or "study" in topic:
+        study_chat()
     else:
-        print("Sorry, I can only help with sports, events, or associations right now.")
+        print("Sorry, I can only help with sports, events, associations, or studying right now.")
+        main()
     
     print("\nThank you for using Unibot! Have a good day :)")
 
@@ -81,11 +84,24 @@ def check_topic(user_input):
         "international", "creative", "career", "networking", "hobby", "research"
     ] + [word.lower() for a in ASSOCIATIONS for word in a.split()]
 
+    study_words = [
+        "exams", "exam", "tests", "test", "quiz", "homework", "struggle", "struggling", "difficult", 
+        "assignment", "assignments", "challenge", "help", "subject", "learn", "learning", "tips", 
+        "advice", "practice", "desk", "professor", "class", "classes", "course", "courses", "lecture",
+        "understand", "teacher", "study", "studying"
+    ]
+
     sports_count = count_keywords(user_input, sports_words)
     events_count = count_keywords(user_input, events_words)
     association_count = count_keywords(user_input, association_words)
+    study_count = count_keywords(user_input, study_words)
 
-    scores = {"sports": sports_count, "events": events_count, "associations": association_count}
+    scores = {
+        "sports": sports_count, 
+        "events": events_count, 
+        "associations": association_count,
+        "study": study_count
+    }
     best_topic = max(scores, key=scores.get)
 
     if scores[best_topic] == 0 or list(scores.values()).count(scores[best_topic]) > 1:
@@ -171,6 +187,27 @@ def association_chat():
             print("-", a)
 
     print("\nYou can learn more or sign up through the VU website: https://vu.nl/en/student/associations")
+
+
+def study_chat():
+    print("\nAre you struggling with something in your studies, or are you just looking for practical information?")
+    answer = input("(Type 'struggling' or 'practical'): ").strip().lower()
+
+    if "strug" in answer:
+        print("\nWould you like to share what you're struggling with other students or keep it private?")
+        share = input("(Type 'share' or 'private'): ").strip().lower()
+
+        if "share" in share:
+            print("\nThat's great! You could look for a study group to discuss and work through it together.")
+            print("You can find study groups by asking one of the large Whatsapp groupchats specific to your program.")
+            print("The most popular one belows to Athena Studies so you can easily find it with a google search! :)")
+        else:
+            print("\nThat's completely fine, not everyone feels comfortable sharing.")
+            print("You might want to reach out to your student advisor for personal guidance.")
+            print("You can contact them via: https://vu.nl/en/student/contact-student-guidance-and-support/academic-advisor")
+    else:
+        print("\nGot it! If you're only looking for practical study information, the Student Desk can help.")
+        print("You find contact info here: https://vu.nl/en/education/more-about/student-desk-vrije-universiteit-amsterdam")
 
 
 main()
