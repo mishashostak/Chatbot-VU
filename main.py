@@ -38,11 +38,14 @@ ASSOCIATIONS = [
 
 
 def main():
-    print("Hello, I am Unibot. \nWhat can I help you with?")
-    user_input = input().lower()
-
-    topic = check_topic(user_input)
-
+    print("What can I help you with?")
+    user_input = input("(type 'stop' to terminate or 'r' to restart): ").lower()
+    
+    if user_input == "stop":
+        topic = "Quit"
+    else:
+        topic = check_topic(user_input)
+    
     if topic is None:
         print("\nHmm, I couldn't quite tell. Are you interested in sports, events, associations or studying?")
         topic = input().lower()
@@ -55,6 +58,8 @@ def main():
         association_chat()
     elif topic == "study" or "study" in topic:
         study_chat()
+    elif topic == "Quit":
+        print("Talk to you soon!")
     else:
         print("Sorry, I can only help with sports, events, associations, or studying right now.")
         main()
@@ -118,13 +123,16 @@ def count_keywords(user_input, keywords):
 
 
 def sports_chat():
-    print("\nAre you interested in a specific sport, or would you like to try something new?")
-    print("You can type 'specific' for a certain sport you had in mind.")
-    answer = input("(Type 'specific' or 'new'): ").strip().lower()
+    print("\nWe offer plenty of sports at VU!")
+    print("Were you looking for a specific sport? (yes/no)")
+    answer = input("(yes/no): ").strip().lower()
+    if answer == "r": main()
 
-    if "specific" in answer:
+    if "y" in answer:
         print("Which sport are you interested in?")
         sport = input().strip().lower()
+        if sport == "r": main()
+
         matches = [s for s in SPORTS if sport in s.lower()]
         if matches:
             print("\nThat sport is available at Sportcentrum VU!")
@@ -144,10 +152,13 @@ def events_chat():
     print("We offer plenty of events at VU Amsterdam!")
     print("\nWould you like to look for a specific event? (yes/no)")
     answer = input("(yes/no): ").strip().lower()
+    if answer == "r": main()
 
     if "y" in answer:
         print("You can enter a keyword (e.g., party, dinner, Christmas) and I will look for that event")
         keyword = input("Enter a keyword: ").strip().lower()
+        if keyword == "r": main()
+        
         matches = [e for e in EVENTS if keyword in e.lower()]
         if matches:
             print("\nHere's what I found:")
@@ -167,6 +178,7 @@ def events_chat():
 def association_chat():
     print("\nAre you interested in a specific type of association (e.g., debate, art, science)?")
     interest = input("Enter a keyword or press Enter to see all: ").strip().lower()
+    if interest == "r": main()
 
     if interest:
         matches = [a for a in ASSOCIATIONS if interest in a.lower()]
@@ -192,15 +204,17 @@ def association_chat():
 def study_chat():
     print("\nAre you struggling with something in your studies, or are you just looking for practical information?")
     answer = input("(Type 'struggling' or 'practical'): ").strip().lower()
+    if answer == "r": main()
 
     if "strug" in answer:
         print("\nWould you like to share what you're struggling with other students or keep it private?")
         share = input("(Type 'share' or 'private'): ").strip().lower()
+        if share == "r": main()
 
         if "share" in share:
             print("\nThat's great! You could look for a study group to discuss and work through it together.")
             print("You can find study groups by asking one of the large Whatsapp groupchats specific to your program.")
-            print("The most popular one belows to Athena Studies so you can easily find it with a google search! :)")
+            print("The most popular one belongs to Athena Studies so you can easily find it with a Google search! :)")
         else:
             print("\nThat's completely fine, not everyone feels comfortable sharing.")
             print("You might want to reach out to your student advisor for personal guidance.")
@@ -210,4 +224,5 @@ def study_chat():
         print("You find contact info here: https://vu.nl/en/education/more-about/student-desk-vrije-universiteit-amsterdam")
 
 
+print("Hello, I am Unibot!")
 main()
