@@ -1,5 +1,6 @@
-#Unibot
+#Unibot: Project Computational Thinking
 
+#Hard code the data from unilife.csv
 SPORTS = [
     "Aikido",
     "Basketball",
@@ -36,20 +37,23 @@ ASSOCIATIONS = [
     "Bunch of Backpackers"
 ]
 
-
+#Main conversational flow function
 def main():
     print("What can I help you with?")
     user_input = input("(type 'stop' to terminate or 'r' to restart): ").lower()
     
+    #Checks if user wants to terminate the program
     if user_input == "stop":
         topic = "Quit"
     else:
         topic = check_topic(user_input)
     
+    #Ask user to specify if no keywords or if tie in keywords
     if topic is None:
         print("\nHmm, I couldn't quite tell. Are you interested in sports, events, associations or studying?")
         topic = input().lower()
 
+    #Send user to relative topic conversation flow function
     if topic == "sports" or "sport" in topic:
         sports_chat()
     elif topic == "events" or "event" in topic:
@@ -66,8 +70,9 @@ def main():
     
     print("\nThank you for using Unibot! Have a good day :)")
 
-
+#Used to identify topic of conversation from an input
 def check_topic(user_input):    
+    #Lists of most probable keywords for each topic
     sports_words = [
         "sport", "sports", "gym", "training", "train", "weight", "health", "fitness", 
         "excercise", "workout", "tournament", "competition", "stretch", "cardio", "play",
@@ -109,12 +114,13 @@ def check_topic(user_input):
     }
     best_topic = max(scores, key=scores.get)
 
+    #Check if there are no keywords OR if there is an equal score between two topics
     if scores[best_topic] == 0 or list(scores.values()).count(scores[best_topic]) > 1:
         return None
     
     return best_topic
 
-
+#Used to linearly count the number of keywords for each list of keywords
 def count_keywords(user_input, keywords):
     count = 0
     for word in keywords:
@@ -122,6 +128,7 @@ def count_keywords(user_input, keywords):
     return count
 
 
+#Conversational flow for the sports topic
 def sports_chat():
     print("\nWe offer plenty of sports at VU!")
     print("Were you looking for a specific sport? (yes/no)")
@@ -148,6 +155,7 @@ def sports_chat():
         print("\nYou can sign up for any of them on the Sportcentrum VU website: https://sportcentrumvu.nl/")
 
 
+#Conversational flow for the events topic
 def events_chat():
     print("We offer plenty of events at VU Amsterdam!")
     print("\nWould you like to look for a specific event? (yes/no)")
@@ -175,6 +183,7 @@ def events_chat():
     print("If youre interested, you can also check out other events that are happening at: https://vu.nl/en/events")
 
 
+#Conversational flow for the associations topic
 def association_chat():
     print("\nAre you interested in a specific type of association (e.g., debate, art, science)?")
     interest = input("Enter a keyword or press Enter to see all: ").strip().lower()
@@ -201,6 +210,7 @@ def association_chat():
     print("\nYou can learn more or sign up through the VU website: https://vu.nl/en/student/associations")
 
 
+#Conversational flow for the study topic
 def study_chat():
     print("\nAre you struggling with something in your studies, or are you just looking for practical information?")
     answer = input("(Type 'struggling' or 'practical'): ").strip().lower()
@@ -223,6 +233,6 @@ def study_chat():
         print("\nGot it! If you're only looking for practical study information, the Student Desk can help.")
         print("You find contact info here: https://vu.nl/en/education/more-about/student-desk-vrije-universiteit-amsterdam")
 
-
+#Call the main() function and start the process
 print("Hello, I am Unibot!")
 main()
