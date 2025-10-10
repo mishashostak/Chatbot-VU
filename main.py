@@ -79,14 +79,14 @@ def check_topic(user_input):
         "event", "party", "dinner", "festival", "concert", "picnic", "night", "celebration", 
         "campus", "borrel", "drinking", "gathering", "trip", "halloween", "christmas", 
         "thanksgiving", "valentine", "valentines", "weekend", "mixer", "outing", "meet",
-        "meetup", "hangout", "holiday", "fun", "music", "dance", "dancing", "people"
+        "meetup", "hangout", "holiday", "fun", "music", "dance", "dancing", "people", "events"
     ] + [word.lower() for e in EVENTS for word in e.split()]
     
     association_words = [
         "association", "club", "society", "societies", "group", "student", "students", "network",
         "organization", "join", "membership", "friends", "teamwork", "connect", "connections",
         "together", "community", "committee", "support", "interest", "union", "volunteer",
-        "international", "creative", "career", "networking", "hobby", "research"
+        "international", "creative", "career", "networking", "hobby", "research", "associations"
     ] + [word.lower() for a in ASSOCIATIONS for word in a.split()]
 
     study_words = [
@@ -158,7 +158,7 @@ def events_chat():
         print("You can enter a keyword (e.g., party, dinner, Christmas) and I will look for that event")
         keyword = input("Enter a keyword: ").strip().lower()
         if keyword == "r": main()
-        
+
         matches = [e for e in EVENTS if keyword in e.lower()]
         if matches:
             print("\nHere's what I found:")
