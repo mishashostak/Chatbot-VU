@@ -177,20 +177,22 @@ START
             SET matches TO all ASSOCIATIONS containing interest
             IF matches IS NOT EMPTY THEN
                 OUTPUT "Based on your interest, you might enjoy:"
-                FOR each a IN matches DO
-                    OUTPUT "-", a
+                FOR each association IN matches DO
+                    OUTPUT "-", association
                 ENDFOR
             ELSE IF interest == "no" THEN
                 OUTPUT "Oh, that’s a shame, let's restart."
                 CALL main
             ELSE
                 OUTPUT "I couldn’t find that. Here are some suggestions:"
-                OUTPUT first five ASSOCIATIONS
+                FOR each association IN ASSOCIATIONS DO
+                    OUTPUT "-", association
+                ENDFOR
             ENDIF
         ELSE
             OUTPUT "Here are all the associations you could join:"
-            FOR each a IN ASSOCIATIONS DO
-                OUTPUT "-", a
+            FOR each association IN ASSOCIATIONS DO
+                OUTPUT "-", association
             ENDFOR
         ENDIF
 
