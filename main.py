@@ -199,8 +199,8 @@ def association_chat():
             print("Oh, that's a shame, I suppose we can restart")
             main()
         else:
-            print("\nI couldn't find any associations for that interest. Here are some others you could explore:")
-            for a in ASSOCIATIONS[:5]:
+            print("\nI couldn't find any associations for that interest. Here are all the others you could explore:")
+            for a in ASSOCIATIONS:
                 print("-", a)
     else:
         print("\nHere are all the associations you could join:")
