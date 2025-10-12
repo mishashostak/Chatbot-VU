@@ -1,4 +1,5 @@
 START
+
     // Hardcoded data from unilife.csv
     SET SPORTS TO [
         "Aikido", "Basketball", "Tennis", "Swimming", "Football", "Zumba", "Karate", "Yoga", 
@@ -75,7 +76,7 @@ START
     ENDFUNCTION
 
 
-    // ---------- COUNT KEYWORDS FUNCTION ----------
+    // COUNT KEYWORDS FUNCTION
     FUNCTION count_keywords(user_input, keywords)
         SET count TO 0
         FOR each word IN keywords DO
@@ -85,7 +86,7 @@ START
     ENDFUNCTION
 
 
-    // ---------- SPORTS CHAT ----------
+    // SPORTS CHAT
     FUNCTION sports_chat
         OUTPUT "We offer plenty of sports at VU!"
         OUTPUT "Were you looking for a specific sport? (yes/no)"
@@ -123,7 +124,7 @@ START
     ENDFUNCTION
 
 
-    // ---------- EVENTS CHAT ----------
+    // EVENTS CHAT
     FUNCTION events_chat
         OUTPUT "We offer plenty of events at VU Amsterdam!"
         OUTPUT "Would you like to look for a specific event? (yes/no)"
@@ -164,7 +165,7 @@ START
     ENDFUNCTION
 
 
-    // ---------- ASSOCIATIONS CHAT ----------
+    // ASSOCIATIONS CHAT
     FUNCTION association_chat
         OUTPUT "Are you interested in a specific type of association (e.g., debate, art, science)?"
         INPUT interest
@@ -200,7 +201,7 @@ START
     ENDFUNCTION
 
 
-    // ---------- STUDY CHAT ----------
+    // STUDY CHAT
     FUNCTION study_chat
         OUTPUT "Are you struggling with something in your studies, or looking for practical info?"
         INPUT answer
@@ -231,7 +232,7 @@ START
     ENDFUNCTION
 
 
-    // ---------- START PROGRAM ----------
+    // START PROGRAM
     OUTPUT "Hello, I am Unibot!"
     CALL main
 
