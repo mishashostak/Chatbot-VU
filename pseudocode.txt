@@ -1,0 +1,236 @@
+START
+    // Hardcoded data from unilife.csv
+    SET SPORTS TO [
+        "Aikido", "Basketball", "Tennis", "Swimming", "Football", "Zumba", "Karate", "Yoga", 
+        "Waterpolo"
+    ]
+
+    SET EVENTS TO [
+        "New Year's Party (13 Jan)", "Valentine's Dinner (14 Feb)", "Carnival Night (1 March)",
+        "Karaoke Night (18 April)", "Kayaking Trip (5 May)", "Seaside Picnic (15 Sep)",
+        "Halloween Party (31 Oct)", "Thanksgiving Jamboree (26 Nov)", "Christmas Dinner (18 Dec)"
+    ]
+
+    SET ASSOCIATIONS TO [
+        "Poetry Pals", "Debate Club", "Science Society", "Painting and Pottery", 
+        "Language Club", "International Students Society", "Students for Sustainability", 
+        "Animal Shelter Volunteers", "Bunch of Backpackers"
+    ]
+
+
+    // MAIN FUNCTION
+    FUNCTION main
+        OUTPUT "What can I help you with?"
+        INPUT user_input
+        CONVERT user_input TO lowercase
+        
+        IF user_input == "stop" THEN
+            SET topic TO "Quit"
+        ELSE
+            SET topic TO check_topic(user_input)
+        ENDIF
+
+        IF topic == None THEN
+            OUTPUT "Hmm, I couldn't quite tell. Are you interested in sports, events, associations or studying?"
+            INPUT topic
+            CONVERT topic TO lowercase
+        ENDIF
+
+        IF topic == "sports" OR "sport" IN topic THEN
+            CALL sports_chat
+        ELSE IF topic == "events" OR "event" IN topic THEN
+            CALL events_chat
+        ELSE IF topic == "associations" OR "association" IN topic THEN
+            CALL association_chat
+        ELSE IF topic == "study" OR "studying" IN topic THEN
+            CALL study_chat
+        ELSE IF topic == "Quit" THEN
+            OUTPUT "Talk to you soon!"
+        ELSE
+            OUTPUT "Sorry, I can only help with sports, events, associations, or studying right now."
+            CALL main
+        ENDIF
+
+        OUTPUT "Thank you for using Unibot! Have a good day :)"
+    ENDFUNCTION
+
+
+    // CHECK TOPIC FUNCTION
+    FUNCTION check_topic(user_input)
+        DEFINE keyword lists for sports, events, associations, and study (including the data lists)
+        
+        SET sports_count TO count_keywords(user_input, sports_words)
+        SET events_count TO count_keywords(user_input, events_words)
+        SET association_count TO count_keywords(user_input, association_words)
+        SET study_count TO count_keywords(user_input, study_words)
+        
+        SET scores TO dictionary of topic counts
+        SET best_topic TO the topic with the highest score
+
+        IF score of best_topic == 0 OR more than one topic has the same highest score THEN
+            RETURN None
+        ELSE
+            RETURN best_topic
+        ENDIF
+    ENDFUNCTION
+
+
+    // ---------- COUNT KEYWORDS FUNCTION ----------
+    FUNCTION count_keywords(user_input, keywords)
+        SET count TO 0
+        FOR each word IN keywords DO
+            ADD number of occurrences of word in user_input TO count
+        ENDFOR
+        RETURN count
+    ENDFUNCTION
+
+
+    // ---------- SPORTS CHAT ----------
+    FUNCTION sports_chat
+        OUTPUT "We offer plenty of sports at VU!"
+        OUTPUT "Were you looking for a specific sport? (yes/no)"
+        INPUT answer
+        CONVERT answer TO lowercase
+        IF answer == "r" THEN
+            CALL main
+        ENDIF
+
+        IF "y" IN answer THEN
+            OUTPUT "Which sport are you interested in?"
+            INPUT sport_input
+            CONVERT sport_input TO lowercase
+            IF sport_input == "r" THEN
+                CALL main
+            ENDIF
+
+            SET matches TO list of SPORTS containing sport_input
+            IF matches IS NOT EMPTY THEN
+                OUTPUT "That sport is available at Sportcentrum VU!"
+                OUTPUT "Sign up at: https://sportcentrumvu.nl/"
+            ELSE
+                OUTPUT "That sport might not be available. Here’s what we offer:"
+                FOR each sport IN SPORTS DO
+                    OUTPUT "-", sport
+                ENDFOR
+            ENDIF
+        ELSE
+            OUTPUT "Here are all the sports we have:"
+            FOR each sport IN SPORTS DO
+                OUTPUT "-", sport
+            ENDFOR
+            OUTPUT "Sign up at: https://sportcentrumvu.nl/"
+        ENDIF
+    ENDFUNCTION
+
+
+    // ---------- EVENTS CHAT ----------
+    FUNCTION events_chat
+        OUTPUT "We offer plenty of events at VU Amsterdam!"
+        OUTPUT "Would you like to look for a specific event? (yes/no)"
+        INPUT answer
+        CONVERT answer TO lowercase
+        IF answer == "r" THEN
+            CALL main
+        ENDIF
+
+        IF "y" IN answer THEN
+            OUTPUT "Enter a keyword (e.g., party, dinner, Christmas)"
+            INPUT keyword
+            CONVERT keyword TO lowercase
+            IF keyword == "r" THEN
+                CALL main
+            ENDIF
+
+            SET matches TO all EVENTS containing keyword
+            IF matches IS NOT EMPTY THEN
+                OUTPUT "Here’s what I found:"
+                FOR each event IN matches DO
+                    OUTPUT "-", event
+                ENDFOR
+            ELSE
+                OUTPUT "Sorry, no matches. Here are all events:"
+                FOR each event IN EVENTS DO
+                    OUTPUT "-", event
+                ENDFOR
+            ENDIF
+        ELSE
+            OUTPUT "Here is the full list of events:"
+            FOR each event IN EVENTS DO
+                OUTPUT "-", event
+            ENDFOR
+        ENDIF
+
+        OUTPUT "Check more events at: https://vu.nl/en/events"
+    ENDFUNCTION
+
+
+    // ---------- ASSOCIATIONS CHAT ----------
+    FUNCTION association_chat
+        OUTPUT "Are you interested in a specific type of association (e.g., debate, art, science)?"
+        INPUT interest
+        CONVERT interest TO lowercase
+        IF interest == "r" THEN
+            CALL main
+        ENDIF
+
+        IF interest IS NOT EMPTY THEN
+            SET matches TO all ASSOCIATIONS containing interest
+            IF matches IS NOT EMPTY THEN
+                OUTPUT "Based on your interest, you might enjoy:"
+                FOR each a IN matches DO
+                    OUTPUT "-", a
+                ENDFOR
+            ELSE IF interest == "no" THEN
+                OUTPUT "Oh, that’s a shame, let's restart."
+                CALL main
+            ELSE
+                OUTPUT "I couldn’t find that. Here are some suggestions:"
+                OUTPUT first five ASSOCIATIONS
+            ENDIF
+        ELSE
+            OUTPUT "Here are all the associations you could join:"
+            FOR each a IN ASSOCIATIONS DO
+                OUTPUT "-", a
+            ENDFOR
+        ENDIF
+
+        OUTPUT "Learn more or sign up at: https://vu.nl/en/student/associations"
+    ENDFUNCTION
+
+
+    // ---------- STUDY CHAT ----------
+    FUNCTION study_chat
+        OUTPUT "Are you struggling with something in your studies, or looking for practical info?"
+        INPUT answer
+        CONVERT answer TO lowercase
+        IF answer == "r" THEN
+            CALL main
+        ENDIF
+
+        IF "strug" IN answer THEN
+            OUTPUT "Would you like to share or keep it private?"
+            INPUT share
+            CONVERT share TO lowercase
+            IF share == "r" THEN
+                CALL main
+            ENDIF
+
+            IF "share" IN share THEN
+                OUTPUT "You can look for study groups and discuss with peers."
+                OUTPUT "Find groups on program WhatsApp chats or Athena Studies!"
+            ELSE
+                OUTPUT "No worries. You can contact your student advisor for guidance."
+                OUTPUT "Link: https://vu.nl/en/student/contact-student-guidance-and-support/academic-advisor"
+            ENDIF
+        ELSE
+            OUTPUT "If you’re looking for practical info, contact the Student Desk."
+            OUTPUT "Link: https://vu.nl/en/education/more-about/student-desk-vrije-universiteit-amsterdam"
+        ENDIF
+    ENDFUNCTION
+
+
+    // ---------- START PROGRAM ----------
+    OUTPUT "Hello, I am Unibot!"
+    CALL main
+
+END
