@@ -58,7 +58,35 @@ START
 
     // CHECK TOPIC FUNCTION
     FUNCTION check_topic(user_input)
-        DEFINE keyword lists for sports, events, associations, and study (including the data lists)
+
+        //Making lists of each topic's keywords + the words in the Lists from the csv file
+        SET sports_words TO [
+            "sport", "sports", "gym", "training", "train", "weight", "health", "fitness", 
+            "excercise", "workout", "tournament", "competition", "stretch", "cardio", "play",
+            "active", "track", "field", "ball", "run", "league", "soccer", "match", "team",
+            "coach", "court", "baseball", "sporty", "gymnasium", "athlete", "athletic", "recreation"
+        ] + SPORTS
+    
+        SET events_words TO [
+            "event", "party", "dinner", "festival", "concert", "picnic", "night", "celebration", 
+            "campus", "borrel", "drinking", "gathering", "trip", "halloween", "christmas", 
+            "thanksgiving", "valentine", "valentines", "weekend", "mixer", "outing", "meet",
+            "meetup", "hangout", "holiday", "fun", "music", "dance", "dancing", "people", "events"
+        ] + EVENTS
+    
+        SET association_words TO [
+            "association", "club", "society", "societies", "group", "student", "students", "network",
+            "organization", "join", "membership", "friends", "teamwork", "connect", "connections",
+            "together", "community", "committee", "support", "interest", "union", "volunteer",
+            "international", "creative", "career", "networking", "hobby", "research", "associations"
+        ] + ASSOCIATIONS
+
+        SET study_words TO [
+            "exams", "exam", "tests", "test", "quiz", "homework", "struggle", "struggling", "difficult", 
+            "assignment", "assignments", "challenge", "help", "subject", "learn", "learning", "tips", 
+            "advice", "practice", "desk", "professor", "class", "classes", "course", "courses", "lecture",
+            "understand", "teacher", "study", "studying"
+        ]
         
         SET sports_count TO count_keywords(user_input, sports_words)
         SET events_count TO count_keywords(user_input, events_words)
