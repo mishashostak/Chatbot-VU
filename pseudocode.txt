@@ -33,8 +33,7 @@ START
 
         IF topic == None THEN
             OUTPUT "Hmm, I couldn't quite tell. Are you interested in sports, events, associations or studying?"
-            INPUT topic
-            CONVERT topic TO lowercase
+            CALL main
         ENDIF
 
         IF topic == "sports" OR "sport" IN topic THEN
