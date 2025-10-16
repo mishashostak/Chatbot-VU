@@ -51,7 +51,7 @@ def main():
     #Ask user to specify if no keywords or if tie in keywords
     if topic is None:
         print("\nHmm, I couldn't quite tell. Are you interested in sports, events, associations or studying?")
-        topic = input().lower()
+        main()
 
     #Send user to relative topic conversation flow function
     if topic == "sports" or "sport" in topic:
